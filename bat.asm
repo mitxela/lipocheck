@@ -11,6 +11,9 @@ init:
 .def displayTime = r21
   ldi displayTime,80
 
+  ldi r16, 1<<PRTIM1 | 1<<PRTIM0 | 1<<PRUSI
+  out PRR, r16
+
 
   ldi r16, $ff
   out DDRB, r16
