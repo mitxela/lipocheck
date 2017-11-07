@@ -1,5 +1,14 @@
 .include "tn85def.inc"
+rjmp init
+
+.org 0x0008 ; ADC
   
+  rjmp sleepDone
+
+
+init:
+
+
   ldi r16, $ff
   out DDRB, r16
 
@@ -64,11 +73,20 @@ wait2:
 
 
 readADC:
-    ; Enable, Start conversion, clear interrupt, Prescale 128
-    ldi r16,(1<<ADEN|1<<ADSC|1<<ADIF|1<<ADPS2|1<<ADPS1|1<<ADPS0)
+    ; Enable, clear interrupt, interrupt enable, Prescale 128
+    ldi r16,(1<<ADEN|1<<ADIF|1<<ADIE|1<<ADPS2|1<<ADPS1|1<<ADPS0)
     out ADCSRA,r16
+    ldi r16, 1<<SE | 1<<SM0 ; ADC sleep mode
+    out MCUCR, r16
+    sei
+    sleep
+sleepDone:
+    cli
+    pop r0
+    pop r0
+
 waitForConversion:
-    sbis ADCSRA,ADIF
+    sbic ADCSRA,ADSC
     rjmp waitForConversion
     in r16,ADCL
     in r0,ADCH
