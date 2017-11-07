@@ -8,6 +8,9 @@ rjmp init
 
 init:
 
+.def displayTime = r21
+  ldi displayTime,80
+
 
   ldi r16, $ff
   out DDRB, r16
@@ -24,7 +27,7 @@ wait1:
   brne wait1
 
 
-#define voltage(v) low(1125.3/v)
+#define voltage(v) low((1.1*1024)/v)
 
 loop:
 
@@ -64,12 +67,14 @@ wait3:
   brne wait3
 
 
-clr r17
+  clr r17
   out PORTB, r17 
 
 
-  rjmp loop
+  dec displayTime
+  brne loop
 
+  sleep ; wake up by reset pin
 
 
 
