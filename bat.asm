@@ -57,12 +57,14 @@ loop:
 
 
 wait2:
-  out PORTB, r17
-  nop nop nop nop nop nop nop
-  nop nop nop nop nop nop nop
-  nop nop nop nop nop nop nop
-  nop nop nop nop nop nop nop
- clr r17
+
+  clr XH
+wait3:
+  sbiw X, 1
+  brne wait3
+
+
+clr r17
   out PORTB, r17 
 
 
