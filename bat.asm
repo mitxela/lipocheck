@@ -33,7 +33,7 @@ wait1:
 
 ; We measure the internal bandgap voltage (exactly 1.1v)
 ; Then work backwards to work out what the supply voltage is
-#define voltage(v) low((1.1*1024)/v)
+#define voltage(v) low((1.1*1023)/v)
 
 loop:
 
